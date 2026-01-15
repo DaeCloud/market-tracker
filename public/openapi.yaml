@@ -1,0 +1,283 @@
+openapi: 3.0.0
+info:
+  title: MarketTracker
+  version: 1.0.0
+  description: ''
+servers:
+  - url: http://localhost:3000
+  - url: ''
+paths:
+  /api/symbols:
+    get:
+      summary: symbols
+      responses:
+        '200':
+          description: symbols
+          headers:
+            vary:
+              schema:
+                type: string
+              example: >-
+                rsc, next-router-state-tree, next-router-prefetch,
+                next-router-segment-prefetch
+            Date:
+              schema:
+                type: string
+              example: Thu, 15 Jan 2026 08:58:50 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+            Transfer-Encoding:
+              schema:
+                type: string
+              example: chunked
+      tags:
+        - symbol
+  /api/symbol/{symbol}:
+    get:
+      summary: Get Symbol
+      responses:
+        '200':
+          description: Get Symbol
+          headers:
+            vary:
+              deprecated: false
+              schema: {}
+              example: >-
+                rsc, next-router-state-tree, next-router-prefetch,
+                next-router-segment-prefetch
+            Date:
+              deprecated: false
+              schema: {}
+              example: Thu, 15 Jan 2026 08:56:31 GMT
+            Connection:
+              deprecated: false
+              schema: {}
+              example: keep-alive
+            Keep-Alive:
+              deprecated: false
+              schema: {}
+              example: timeout=5
+            Transfer-Encoding:
+              deprecated: false
+              schema: {}
+              example: chunked
+      tags:
+        - symbol
+    parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/symbol:
+    post:
+      summary: Add Symbol
+      responses:
+        '201':
+          description: Add Symbol
+          headers:
+            vary:
+              deprecated: false
+              schema: {}
+              example: >-
+                rsc, next-router-state-tree, next-router-prefetch,
+                next-router-segment-prefetch
+            Date:
+              deprecated: false
+              schema: {}
+              example: Thu, 15 Jan 2026 08:58:30 GMT
+            Connection:
+              deprecated: false
+              schema: {}
+              example: keep-alive
+            Keep-Alive:
+              deprecated: false
+              schema: {}
+              example: timeout=5
+            Transfer-Encoding:
+              deprecated: false
+              schema: {}
+              example: chunked
+      tags:
+        - symbol
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                symbol:
+                  type: string
+            example:
+              symbol: ''
+  /api/symbol/{symbol}/history:
+    get:
+      summary: History
+      responses:
+        '200':
+          description: History
+          headers:
+            vary:
+              schema:
+                type: string
+              example: >-
+                rsc, next-router-state-tree, next-router-prefetch,
+                next-router-segment-prefetch
+            Date:
+              schema:
+                type: string
+              example: Thu, 15 Jan 2026 09:32:07 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+            Transfer-Encoding:
+              schema:
+                type: string
+              example: chunked
+      tags:
+        - symbol
+    parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/update:
+    get:
+      summary: Update History
+      responses:
+        '200':
+          description: Update History
+          headers:
+            vary:
+              schema:
+                type: string
+              example: >-
+                rsc, next-router-state-tree, next-router-prefetch,
+                next-router-segment-prefetch
+            Date:
+              schema:
+                type: string
+              example: Thu, 15 Jan 2026 09:31:32 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+            Transfer-Encoding:
+              schema:
+                type: string
+              example: chunked
+      tags:
+        - symbol
+  /api/symbol/{symbol}/latest:
+    get:
+      summary: Latest
+      responses:
+        '200':
+          description: Latest
+          headers:
+            vary:
+              schema:
+                type: string
+              example: >-
+                rsc, next-router-state-tree, next-router-prefetch,
+                next-router-segment-prefetch
+            Date:
+              schema:
+                type: string
+              example: Thu, 15 Jan 2026 11:02:10 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+            Transfer-Encoding:
+              schema:
+                type: string
+              example: chunked
+      tags:
+        - symbol
+    parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+  /:
+    get:
+      summary: Latest Close
+      responses:
+        '200':
+          description: Latest Close
+          headers:
+            vary:
+              schema:
+                type: string
+              example: >-
+                rsc, next-router-state-tree, next-router-prefetch,
+                next-router-segment-prefetch
+            Date:
+              schema:
+                type: string
+              example: Thu, 15 Jan 2026 11:04:45 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+            Transfer-Encoding:
+              schema:
+                type: string
+              example: chunked
+      tags:
+        - symbol
+  /api/health:
+    get:
+      summary: health
+      responses:
+        '200':
+          description: health
+          headers:
+            vary:
+              schema:
+                type: string
+              example: >-
+                rsc, next-router-state-tree, next-router-prefetch,
+                next-router-segment-prefetch
+            Date:
+              schema:
+                type: string
+              example: Thu, 15 Jan 2026 08:58:38 GMT
+            Connection:
+              schema:
+                type: string
+              example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+              example: timeout=5
+            Transfer-Encoding:
+              schema:
+                type: string
+              example: chunked
