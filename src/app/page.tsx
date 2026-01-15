@@ -57,7 +57,7 @@ export default async function Home() {
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main className="flex min-h-screen w-full max-w-8xl flex-col py-24 px-16 bg-white dark:bg-black">
         <h1 className="text-3xl font-semibold mb-8">
-          Tracked Symbols
+          DaeCloud Market Tracker
         </h1>
 
         <div className="mb-6 flex gap-3">
