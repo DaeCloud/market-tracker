@@ -1,6 +1,7 @@
 import { BuySharesButton } from "./components/BuySharesButton";
 import { TrackSymbolButton } from "./components/TrackSymbolButton";
 import { SymbolsTable } from "./components/SymbolsTable";
+import { SymbolHistory } from "../lib/types";
 
 type SymbolRow = {
   id: number;
@@ -27,6 +28,11 @@ type ApiResponse = {
   data: SymbolRow[];
 };
 
+type HistoryResponse = {
+  status: "success" | "error";
+  data: Record<string, SymbolHistory[]>;
+};
+
 /* ---------------- data fetching ---------------- */
 
 async function getSymbols(url: string): Promise<SymbolRow[]> {
@@ -40,12 +46,24 @@ async function getSymbols(url: string): Promise<SymbolRow[]> {
   return json.data;
 }
 
+async function getHistory(url: string): Promise<Record<string, SymbolHistory[]>> {
+  const res = await fetch(url, { cache: "no-store" });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch ${url}`);
+  }
+
+  const json: HistoryResponse = await res.json();
+  return json.data;
+}
+
 /* ---------------- page ---------------- */
 
 export default async function Home() {
-  const [current, previous] = await Promise.all([
+  const [current, previous, history] = await Promise.all([
     getSymbols("http://localhost:3000/api/symbols"),
     getSymbols("http://localhost:3000/api/symbols/previous"),
+    getHistory("http://localhost:3000/api/symbols/history")
   ]);
 
   // Map previous day by symbol for fast lookup
@@ -68,6 +86,7 @@ export default async function Home() {
         <SymbolsTable
           current={current}
           previousBySymbol={previousBySymbol}
+          history={history}
         />
       </main>
     </div>

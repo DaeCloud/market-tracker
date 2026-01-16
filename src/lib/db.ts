@@ -55,6 +55,28 @@ export async function getTrackedSymbols(): Promise<SymbolHistory[] | []> {
     return rows.length ? rows : [];
 }
 
+export async function getAllHistory(): Promise<Record<string, SymbolHistory[]>> {
+    const rows = await query<SymbolHistory>(
+        `SELECT *
+         FROM History
+         ORDER BY date DESC`
+    );
+
+    const symbolHistory: Record<string, SymbolHistory[]> = {};
+
+    for (const row of rows) {
+        const symbol = row.symbol;
+
+        if (!symbolHistory[symbol]) {
+            symbolHistory[symbol] = [];
+        }
+
+        symbolHistory[symbol].push(row);
+    }
+
+    return symbolHistory;
+}
+
 export async function getTrackedSymbolsPrevious(): Promise<Symbols[] | []> {
     const rows = await query<Symbols>(
         `SELECT

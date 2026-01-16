@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { SymbolHistory } from "../../lib/types";
+import { Sparklines, SparklinesLine } from "react-sparklines";
 
 type SymbolRow = {
     id: number;
@@ -18,9 +20,11 @@ type SymbolRow = {
 export function SymbolsTable({
     current,
     previousBySymbol,
+    history,
 }: {
     current: SymbolRow[];
     previousBySymbol: Map<string, SymbolRow>;
+    history: Record<string, SymbolHistory[]>;
 }) {
     const [ownedOnly, setOwnedOnly] = useState(false);
 
@@ -53,6 +57,7 @@ export function SymbolsTable({
                             <th className="px-4 py-3 text-left">Symbol</th>
                             <th className="px-4 py-3 text-left">Name</th>
                             <th className="px-4 py-3 text-right">Close</th>
+                            <th className="px-4 py-3 text-right">Trend</th>
                             <th className="px-4 py-3 text-right">Change</th>
                             <th className="px-4 py-3 text-right">% Change</th>
                             <th className="px-4 py-3 text-right">Volume</th>
@@ -113,6 +118,13 @@ export function SymbolsTable({
                             const pnlTrend =
                                 pnl == null ? "neutral" : pnl > 0 ? "up" : pnl < 0 ? "down" : "neutral";
 
+                            const symbolHistory = history[s.symbol] ?? [];
+
+                            const closes = symbolHistory
+                                .slice(-30)
+                                .reverse() // oldest → newest (important for left→right)
+                                .map(h => h.close)
+                                .filter((v): v is number => v != null);
 
                             return (
                                 <tr
@@ -130,6 +142,24 @@ export function SymbolsTable({
                                     <td className="px-4 py-2 text-right font-semibold">
                                         {fmtPrice(close, s.price_currency)}
                                     </td>
+
+                                    <td className="px-4 py-2 text-right">
+                                        {closes.length > 1 ? (
+                                            <Sparklines data={closes} width={80} height={20}>
+                                                <SparklinesLine
+                                                    color={
+                                                        closes[closes.length - 1] >= closes[0]
+                                                            ? "#16a34a" // green
+                                                            : "#dc2626" // red
+                                                    }
+                                                    style={{ strokeWidth: 2, fill: "none" }}
+                                                />
+                                            </Sparklines>
+                                        ) : (
+                                            "-"
+                                        )}
+                                    </td>
+
 
                                     <td
                                         className={cls(
@@ -221,8 +251,8 @@ function fmtPrice(value: number | null, currency: string | null) {
 }
 
 function fmtNumber(value: number | null): string {
-  if (value == null) return "-";
-  return value.toLocaleString();
+    if (value == null) return "-";
+    return value.toLocaleString();
 }
 
 function cls(...classes: (string | false | null | undefined)[]) {
